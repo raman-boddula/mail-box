@@ -1,0 +1,11 @@
+.App {
+    background-image: url("./assets/night_landscape.jpg");
+    height: 770px;
+    font: normal 13px/18px YahooSans,
+        Helvetica Neue,
+        Segoe UI,
+        Helvetica,
+        Arial,
+        Lucida Grande,
+        sans-serif;
+}
