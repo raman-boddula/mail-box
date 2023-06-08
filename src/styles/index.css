@@ -40,9 +40,6 @@
   cursor: pointer;
 }
 
-hr {
-  color: #8CA4EB;
-}
 
 .justify-sb {
   justify-content: space-between;
@@ -106,4 +103,40 @@ hr {
   border-left: 4px solid #8CA4EB;
   background-color: #434967;
   font-weight: 700;
+}
+
+.color-white {
+  color: white;
+}
+
+.subject-container {
+  border-bottom: 1px solid #f1f1f5;
+  height: 35px;
+  padding: 4px 20px 4px 12px;
+  background-color: #fff;
+  width: 80%;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  color: black;
+  font-size: 17px;
+}
+
+.subject-container .unread {
+  background-color: #E0E4E8;
+  height: 8px;
+  width: 8px;
+}
+
+.body-container {
+  height: 50vh;
+  border-radius: 0px 0px 4px 4px;
+  font-size: 20px;
+  padding: 1rem;
+  align-items: start;
+}
+
+.no-data-found {
+  font-weight: 800;
+  height: 60%;
+  font-size: 20px;
 }

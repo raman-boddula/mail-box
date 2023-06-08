@@ -1,5 +1,22 @@
+import { useSearchParams } from "react-router-dom";
 import HomeSvg from "./../../../assets/home.svg";
-export const Header = ({handleInputChange}) => {
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+export const Header = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  let { activeTab} =useSelector((state) => state);
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    if (searchParams.get("search")) {
+      setValue(searchParams.get("search"));
+    } else {
+      setValue('')
+    }
+  }, [searchParams.get("search"), activeTab]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams({ [name]: value });
+  }
   return (
     <>
       <div className="dis-flex justify-sb align-items-center h-72">
@@ -12,10 +29,12 @@ export const Header = ({handleInputChange}) => {
         </div>
         <div className="dis-flex">
           <input
+            name='search'
             className="search-input pl-20"
             placeholder="Search any mail"
             type="text"
-            onChange={handleInputChange}
+            onChange={handleChange}
+            value={value}
           />
           <button className="search-btn cursor-pointer">Search</button>
         </div>

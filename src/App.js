@@ -1,18 +1,19 @@
-import { ViewPage } from './components/pages/view-page/view-page';
+import { useState } from 'react';
 import './App.css'
 import './styles/index.css';
-import { Header } from './components/molecules/header/Header';
-import { useState } from 'react';
+
+import RouterWrapper from './routes';
+import { LeftTabs } from './components/atoms/left-tab/LeftTabs';
+import { Header } from './components/atoms/header/Header';
 
 function App() {
-  const [searchValue, setSearchValue] = useState(false);
-  const handleInputChange = (e) => {
-    setSearchValue(e.target.value)
-  }
   return (
     <div className="App">
-      <Header handleInputChange={handleInputChange} />
-      <ViewPage searchValue={searchValue} />
+      <Header/>
+      <div className="viewframe-container">
+        <LeftTabs />
+        <RouterWrapper />
+      </div>
     </div>
   );
 }
