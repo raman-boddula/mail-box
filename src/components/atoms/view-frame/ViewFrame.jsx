@@ -7,7 +7,7 @@ export const ViewFrame = ({ searchValue }) => {
   const [list, setList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   let { activeTab, listing } = useSelector((state) => state);
-  let { type, search } = useParams();
+  let { type } = useParams();
   const dispatch = useDispatch();
   let navigate = useNavigate();
   useEffect(() => {
