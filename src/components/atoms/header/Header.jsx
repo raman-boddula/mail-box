@@ -1,11 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import HomeSvg from "./../../../assets/home.svg";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getEmailList } from "../../../redux/actions";
 export const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  let { activeTab} =useSelector((state) => state);
+  let { activeTab,emails} =useSelector((state) => state);
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
   useEffect(() => {
     if (searchParams.get("search")) {
       setValue(searchParams.get("search"));
@@ -16,7 +18,14 @@ export const Header = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSearchParams({ [name]: value });
+    console.log('name',name)
   }
+  useEffect(() => {
+    getListings();
+  },[])
+  const getListings = () => {
+    dispatch(getEmailList());
+  };
   return (
     <>
       <div className="dis-flex justify-sb align-items-center h-72">

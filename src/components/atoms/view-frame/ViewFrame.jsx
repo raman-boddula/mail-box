@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveBody, setListing } from "../../../redux/actions";
-import { getEmailListing } from "../../../utils";
+import {
+  getEmailList,
+  setActiveBody,
+  setListing,
+} from "../../../redux/actions";
 export const ViewFrame = ({ searchValue }) => {
   const [list, setList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  let { activeTab, listing } = useSelector((state) => state);
+  let { activeTab, listing, emails } = useSelector((state) => state);
   let { type } = useParams();
   const dispatch = useDispatch();
   let navigate = useNavigate();
   useEffect(() => {
+    dispatch(getEmailList());
     if (!listing.length > 0) {
       getListing();
     }
@@ -19,10 +23,9 @@ export const ViewFrame = ({ searchValue }) => {
     }
   }, []);
   const searchList = async () => {
-    let data=listing;
+    let data = listing;
     if (!listing.length > 0) {
-      data = await getEmailListing();
-      dispatch(setListing(data))
+      dispatch(setListing(emails));
     }
     let searched = data
       .filter((mail) => {
@@ -34,33 +37,42 @@ export const ViewFrame = ({ searchValue }) => {
         return (mail.subject + "").includes(searchParams.get("search"));
       });
     setList(searched);
-  }
+  };
   useEffect(() => {
     if (searchParams.get("search")) {
       searchList();
     } else {
       let filtered = listing.filter((mail) => {
-        return type!='allmails'?mail.tag.toLowerCase() == type.toLowerCase():mail
-      })
-      setList(filtered)
+        return type != "allmails"
+          ? mail.tag.toLowerCase() == type.toLowerCase()
+          : mail;
+      });
+      setList(filtered);
     }
-  },[searchParams])
+  }, [searchParams]);
   const getListing = async () => {
-    let res = await getEmailListing();
-    dispatch(setListing(res));
-    let filtered=type !='allmails'?res.filter((mail) => mail.tag == type.toLowerCase()):res
+    let filtered;
+    if (emails.length > 0) {
+      filtered =
+        type != "allmails"
+          ? emails.filter((mail) => mail.tag == type.toLowerCase())
+          : emails;
+    }
     setList(filtered);
   };
   const getFilteredData = (value) => {
     if (value === "AllMails" || value == "allmails") {
-      return listing;
+      return emails;
     }
-    let filterList = listing.filter((mail) => {
+    let filterList = emails.filter((mail) => {
       return mail.tag.includes(value.toLowerCase());
     });
     return filterList;
   };
   useEffect(() => {
+    if (emails.length <= 0) {
+      dispatch(getEmailList());
+    }
     setList(getFilteredData(activeTab));
   }, [activeTab]);
   useEffect(() => {
@@ -91,7 +103,7 @@ export const ViewFrame = ({ searchValue }) => {
         ))
       ) : (
         <div className="no-data-found vertical-center dis-flex">
-         No Data Found
+          No Data Found
         </div>
       )}
     </div>

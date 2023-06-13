@@ -1,9 +1,10 @@
-import {  SET_ACTIVE_BODY, SET_ACTIVE_TAB, SET_LISTING } from "./actionTypes"
+import {  GET_EMAILS, SET_ACTIVE_BODY, SET_ACTIVE_TAB, SET_LISTING } from "./actionTypes"
 
 export const initialState = {
     activeTab: "inbox",
     activeBody: false,
-    listing: []
+    listing: [],
+    emails:[],
 }
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -23,7 +24,12 @@ export const reducer = (state = initialState, { type, payload }) => {
                 ...state,
                 listing: payload
             }
-        
+        case GET_EMAILS: {
+            return {
+                ...state,
+                emails:payload
+            }
+        }
         default:
             return state;
     }
